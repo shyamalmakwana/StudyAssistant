@@ -73,7 +73,7 @@
         <aside>
             <nav id="sidebar">                
                 <ul class="list-unstyled nav nav-pills nav-stacked">
-                    <li class="active"><a href="#home">Home</a></li>
+                    <li><a href="view.jsp">Home</a></li>
                     <li>
                         <a href="#submenu" data-toggle="collapse" aria-expanded="false">Browse by Topic <span class="caret"></span></a>
                         <ul id="submenu" class="collapse list-unstyled nav nav-pills nav-stacked">
@@ -85,19 +85,18 @@
                             <li><a href="watchDB.jsp">Databases</a></li>
                         </ul>
                     </li>
-                    <li><a href="watchLiked.jsp">Liked Videos</a></li>
+                    <li class="active"><a href="#liked">Liked Videos</a></li>
                     <li><a href="#history">Watch Previously Viewed</a></li>
                 </ul><hr>
             </nav>                        
         </aside>
-		<div>
-                
-        <%! 
+		       <%! 
         	Map<Integer,VideoBean> videos;         	
         	VideoBean bean;
         %>
         <%         
-        	videos = WatchVideos.viewVideos();
+        	String username = (String)session.getAttribute("username");
+        	videos = WatchVideos.getLiked(username);
         %>
         <section>           
         
@@ -110,7 +109,7 @@
         			String url = bean.getUrl();
         			String description = bean.getDescription();
         			String category2 = bean.getCategory();
-        			int likes = bean.getLikes();
+        			
         	%>
                 <div class="col-md-5">
                     <div class="thumbnail">
@@ -119,25 +118,9 @@
                         <h4>Title:<%=description%></h4><p> </p>
                         <h4>Topic:<%=category2 %></h4><p> </p>
                     </div>
-                    <form>
-                    <input type="submit" class="btn btn-success btn-md" name="like" style="margin-left: 85%;" value="Like">
-                    <input type="hidden" value="<%=id %>" name="id">
-                    </form>
                     </div>                    
                 </div>
-                              
-       
             <% } %>
-            <% 
-            	String value = request.getParameter("like");
-            	if(value != null && value.equals("Like"))
-            	{
-            		int id = Integer.parseInt(request.getParameter("id"));
-            		
-            		String username = (String)session.getAttribute("username");
-            		int result = Video.like(id,username);
-            		}
-            %>  
                  </div>                    
         </section>
     </body>

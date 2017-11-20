@@ -1,8 +1,7 @@
 package com.beans;
 
-public class UserBean implements java.io.Serializable{
+public class UserBean{
 
-	private static final long serialVersionUID = 1L;
 	private String name,username,password,email;	
 	
 	public UserBean(){}

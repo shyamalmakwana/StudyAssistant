@@ -13,16 +13,16 @@ public class WatchVideos {
 		try{
 			con = DB.getCon();
 			Statement st = con.createStatement();
-			String query = "SELECT * FROM VIDEO ORDER BY RANDOM() LIMIT 20";
+			String query = "SELECT video_id,(details).description,(details).category,likes,url FROM VIDEO ORDER BY RANDOM() LIMIT 10";
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next())
 			{
 				int videoid = rs.getInt(1);
-				Struct details = (Struct)rs.getObject(2);
-				Object videodetails[] = details.getAttributes();
-				int likes = rs.getInt(3);
-				String url = rs.getString(4);
-				video.put(videoid,new VideoBean((String)videodetails[0],(String)videodetails[1],likes,url));				
+				int likes = rs.getInt(4);
+				String url = rs.getString(5);
+				String description = rs.getString(2);
+				String category = rs.getString(3);
+				video.put(videoid,new VideoBean(description,category,likes,url));				
 			}			
 		}
 		catch(Exception e)
@@ -32,23 +32,24 @@ public class WatchVideos {
 		return video;
 	}
 	
-	public static Map<Integer,VideoBean> getLiked(int userid)
+	public static Map<Integer,VideoBean> getLiked(String username)
 	{
 		Connection con = null;
 		Map<Integer,VideoBean> video = new HashMap<Integer,VideoBean>();
 		try{
 			con = DB.getCon();
-			Statement st = con.createStatement();
-			String query = "SELECT video_id,details,likes,url FROM video JOIN user_liked ON video.video_id = ANY(video_list) WHERE user_id = "+userid;
+			Statement st = con.createStatement();			
+			
+			String query = "SELECT video_id,(details).description,(details).category,likes,url FROM video JOIN userliked ON video.video_id = ANY(video_list) WHERE (userlogin).username = '"+username+"';";
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next())
 			{
 				int videoid = rs.getInt(1);
-				Struct details = (Struct)rs.getObject(2);
-				Object videodetails[] = details.getAttributes();
-				int likes = rs.getInt(3);
-				String url = rs.getString(4);
-				video.put(videoid,new VideoBean((String)videodetails[0],(String)videodetails[1],likes,url));				
+				int likes = rs.getInt(4);
+				String url = rs.getString(5);
+				String description = rs.getString(2);
+				String category = rs.getString(3);
+				video.put(videoid,new VideoBean(description,category,likes,url));				
 			}			
 		}
 		catch(Exception e)
@@ -90,16 +91,16 @@ public class WatchVideos {
 		try{
 			con = DB.getCon();
 			Statement st = con.createStatement();
-			String query = "SELECT * FROM video WHERE (details).category = '"+category+"'";
+			String query = "SELECT video_id,(details).description,(details).category,likes,url FROM video WHERE (details).category = '"+category+"'";
 			ResultSet rs = st.executeQuery(query);
 			while(rs.next())
 			{
 				int videoid = rs.getInt(1);
-				Struct details = (Struct)rs.getObject(2);
-				Object videodetails[] = details.getAttributes();
-				int likes = rs.getInt(3);
-				String url = rs.getString(4);
-				video.put(videoid,new VideoBean((String)videodetails[0],(String)videodetails[1],likes,url));				
+				int likes = rs.getInt(4);
+				String url = rs.getString(5);
+				String description = rs.getString(2);
+				String category2 = rs.getString(3);
+				video.put(videoid,new VideoBean(description,category2,likes,url));				
 			}			
 		}
 		catch(Exception e)

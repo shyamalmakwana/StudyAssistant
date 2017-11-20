@@ -6,6 +6,7 @@
     import="com.dao.Video"
     %>
 
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -73,12 +74,12 @@
         <aside>
             <nav id="sidebar">                
                 <ul class="list-unstyled nav nav-pills nav-stacked">
-                    <li class="active"><a href="#home">Home</a></li>
-                    <li>
+                    <li><a href="view.jsp">Home</a></li>
+                    <li class="active">
                         <a href="#submenu" data-toggle="collapse" aria-expanded="false">Browse by Topic <span class="caret"></span></a>
                         <ul id="submenu" class="collapse list-unstyled nav nav-pills nav-stacked">
                             <li><a href="watchC.jsp">C</a></li>
-                            <li><a href="watchC++.jsp">C++</a></li>
+                            <li class="active"><a href="#">C++</a></li>
                             <li><a href="watchJava.jsp">Java</a></li>
                             <li><a href="watchPython.jsp">Python</a></li>
                             <li><a href="watchDS.jsp">Datastructures</a></li>
@@ -90,14 +91,12 @@
                 </ul><hr>
             </nav>                        
         </aside>
-		<div>
-                
-        <%! 
+		<%! 
         	Map<Integer,VideoBean> videos;         	
         	VideoBean bean;
         %>
-        <%         
-        	videos = WatchVideos.viewVideos();
+        <%                 	        
+        	videos = WatchVideos.getCategory("C++");
         %>
         <section>           
         
@@ -110,7 +109,7 @@
         			String url = bean.getUrl();
         			String description = bean.getDescription();
         			String category2 = bean.getCategory();
-        			int likes = bean.getLikes();
+        			
         	%>
                 <div class="col-md-5">
                     <div class="thumbnail">
@@ -139,6 +138,6 @@
             		}
             %>  
                  </div>                    
-        </section>
+               </section>
     </body>
 </html>

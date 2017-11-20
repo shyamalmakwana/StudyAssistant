@@ -1,8 +1,7 @@
 package com.beans;
 
-public class VideoBean implements java.io.Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class VideoBean{
+	
 	private int likes;
 	private String description, category, url;
 	
